@@ -17,11 +17,8 @@ RUN echo "DirectoryIndex index.php index.html" >> /etc/apache2/apache2.conf
 # Habilita los modulos de Apache necesarios (en caso de que no estén habilitados)
 RUN a2enmod rewrite
 
-# Reinicia Apache para aplicar la configuración
-RUN service apache2 restart
-
 # Expone el puerto 80 para HTTP
 EXPOSE 80
 
-# Inicia el servidor Apache
+# Inicia el servidor Apache en primer plano
 CMD ["apache2-foreground"]
