@@ -1,16 +1,16 @@
 # Usa la imagen base con PHP y Apache
 FROM php:8.2-apache
 
-# Actualiza el sistema e instala dependencias necesarias
+# Actualiza el sistema e instala dependencias necesarias (PostgreSQL y Apache)
 RUN apt-get update && apt-get install -y \
-    libpq-dev \  # Dependencia para la conexión con PostgreSQL
-    && docker-php-ext-install pgsql \  # Instalar extensión PostgreSQL
-    && a2enmod rewrite  # Habilita la reescritura de URL si es necesario
+    libpq-dev \  # Necesario para la conexión con PostgreSQL
+    && docker-php-ext-install pgsql pdo_pgsql \  # Instalar las extensiones PostgreSQL
+    && a2enmod rewrite  # Habilita la reescritura de URL de Apache si es necesario
 
 # Establece el directorio de trabajo
 WORKDIR /var/www/html
 
-# Copia los archivos al contenedor
+# Copia los archivos de tu aplicación al contenedor
 COPY . /var/www/html/
 
 # Da permisos adecuados a los archivos
