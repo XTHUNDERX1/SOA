@@ -11,14 +11,11 @@ COPY . /var/www/html/
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html
 
-# Asegúrate de que Apache busque index.php y index.html por defecto
-RUN echo "DirectoryIndex index.php index.html" >> /etc/apache2/apache2.conf
-
-# Habilita los modulos de Apache necesarios (en caso de que no estén habilitados)
-RUN a2enmod rewrite
+# Asegúrate de que Apache busque index.php por defecto
+RUN echo "DirectoryIndex index.php" >> /etc/apache2/apache2.conf
 
 # Expone el puerto 80 para HTTP
 EXPOSE 80
 
-# Inicia el servidor Apache en primer plano
+# Inicia el servidor Apache
 CMD ["apache2-foreground"]
