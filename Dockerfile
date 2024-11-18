@@ -5,7 +5,7 @@ FROM php:8.2-apache
 WORKDIR /var/www/html
 
 # Copia todos los archivos desde tu directorio actual al contenedor
-COPY . /var/www/html
+COPY . /var/www/html/
 
 # Da permisos adecuados a los archivos
 RUN chown -R www-data:www-data /var/www/html \
@@ -13,6 +13,9 @@ RUN chown -R www-data:www-data /var/www/html \
 
 # Asegúrate de que Apache busque index.php y index.html por defecto
 RUN echo "DirectoryIndex index.php index.html" >> /etc/apache2/apache2.conf
+
+# Habilita los modulos de Apache necesarios (en caso de que no estén habilitados)
+RUN a2enmod rewrite
 
 # Reinicia Apache para aplicar la configuración
 RUN service apache2 restart
