@@ -1,15 +1,17 @@
 <?php
-$servername = "localhost";
-$username = "root"; // Nombre de usuario por defecto en XAMPP
-$password = "";     // Contraseña por defecto en XAMPP (normalmente está en blanco)
-$database = "eventos_peru";
+// Detalles de conexión de PostgreSQL
+$host = "dpg-cstcek56l47c73ejj0o0-a";  // Reemplaza con el host proporcionado por Render
+$port = "5432";  // Puerto de PostgreSQL
+$dbname = "eventos_peru";  // Nombre de la base de datos
+$username = "william";  // Nombre de usuario proporcionado por Render
+$password = "1UBq6PxYt6buLtcmDSwGpWKd84Ij5yuD";  // Contraseña proporcionada por Render
 
 // Crear la conexión
-$conn = new mysqli($servername, $username, $password, $database);
+$conn = pg_connect("host=$host port=$port dbname=$dbname user=$username password=$password");
 
 // Verificar la conexión
-if ($conn->connect_error) {
-    die("Conexión fallida: " . $conn->connect_error);
+if (!$conn) {
+    die("Conexión fallida: " . pg_last_error());
 } 
-echo  "conexion realizada con la base de datos eventos_peru";
+echo "Conexión realizada con la base de datos eventos_peru";
 ?>

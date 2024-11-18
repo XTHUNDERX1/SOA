@@ -1,7 +1,7 @@
 <?php
-$servername = "localhost";
-$username = "root"; // Nombre de usuario por defecto en XAMPP
-$password = "";     // Contraseña por defecto en XAMPP (normalmente está en blanco)
+$servername = "dpg-cstcek56l47c73ejj0o0-a";
+$username = "william"; // Nombre de usuario por defecto en XAMPP
+$password = "1UBq6PxYt6buLtcmDSwGpWKd84Ij5yuD";     // Contraseña por defecto en XAMPP (normalmente está en blanco)
 $database = "eventos_peru";
 
 // Crear la conexión
