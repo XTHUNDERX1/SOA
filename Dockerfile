@@ -11,6 +11,9 @@ COPY . /var/www/html
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html
 
+# Asegúrate de que Apache busque index.php por defecto
+RUN echo "DirectoryIndex index.php" >> /etc/apache2/apache2.conf
+
 # Expone el puerto 80 para HTTP
 EXPOSE 80
 
