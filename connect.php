@@ -1,13 +1,23 @@
 <?php
 // URL de conexión a PostgreSQL
-$conn_string = "postgresql://william:1UBq6PxYt6buLtcmDSwGpWKd84Ij5yuD@dpg-cstcek56l47c73ejj0o0-a/eventos_peru";
+$dsn = "pgsql:host=dpg-cstcek56l47c73ejj0o0-a;port=5432;dbname=eventos_peru";
+$username = "william";
+$password = "1UBq6PxYt6buLtcmDSwGpWKd84Ij5yuD";
 
-// Crear la conexión usando pg_connect
-$conn = pg_connect($conn_string);
+try {
+    // Crear la conexión usando PDO
+    $conn = new PDO($dsn, $username, $password);
+    // Establecer el modo de error de PDO
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    echo "Conexión exitosa a la base de datos eventos_peru en Render";
 
-// Verificar la conexión
-if (!$conn) {
-    die("Conexión fallida: " . pg_last_error());
-} 
-echo "Conexión realizada con la base de datos eventos_peru";
+    // Consulta de prueba
+    $query = "SELECT NOW()"; // Devuelve la fecha y hora actual
+    $stmt = $conn->query($query);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    echo "<br>Consulta exitosa. Hora actual en la base de datos: " . $row['now'];
+} catch (PDOException $e) {
+    // Manejo de errores
+    echo "Conexión fallida: " . $e->getMessage();
+}
 ?>
