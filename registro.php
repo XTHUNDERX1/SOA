@@ -1,11 +1,8 @@
 <?php
-$servername = "dpg-cstcek56l47c73ejj0o0-a";
-$username = "william"; // Nombre de usuario por defecto en XAMPP
-$password = "1UBq6PxYt6buLtcmDSwGpWKd84Ij5yuD";     // Contraseña por defecto en XAMPP (normalmente está en blanco)
-$database = "eventos_peru";
+$conn_string = "postgresql://william:1UBq6PxYt6buLtcmDSwGpWKd84Ij5yuD@dpg-cstcek56l47c73ejj0o0-a/eventos_peru";
 
 // Crear la conexión
-$conn = new mysqli($servername, $username, $password, $database);
+$conn = pg_connect($conn_string);
 
 // Verificar la conexión
 if ($conn->connect_error) {
