@@ -1,5 +1,8 @@
 <?php
-$conn_string = "postgresql://william:1UBq6PxYt6buLtcmDSwGpWKd84Ij5yuD@dpg-cstcek56l47c73ejj0o0-a/eventos_peru";
+$servername = "auth-db1664.hstgr.io";  // El servidor de la base de datos
+$username = "u855900840_william";      // Tu usuario de base de datos
+$password = "SOA@utp123";              // Tu contraseña de base de datos
+$dbname = "u855900840_eventos_peru";   // Nombre de la base de datos
 
 // Crear la conexión
 $conn = pg_connect($conn_string);
