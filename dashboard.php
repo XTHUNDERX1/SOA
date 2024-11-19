@@ -16,7 +16,7 @@ try {
 }
 
 // Consulta de usuarios
-$query = "SELECT UsuarioID, NombreUsuario, Email, NombreRol FROM Usuarios INNER JOIN Roles ON Usuarios.RolID = Roles.RolID";
+$query = "SELECT UsuarioID, NombreUsuario, Email, NombreRol FROM Usuarios INNER JOIN roles ON Usuarios.RolID = roles.RolID";
 try {
     // Ejecutar la consulta
     $stmt = $conn->prepare($query);
