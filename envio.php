@@ -8,8 +8,7 @@ $dbname = "u855900840_eventos_peru";
 try {
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    // Verificación de la conexión
-} catch(PDOException $e) {
+} catch (PDOException $e) {
     echo "Conexión fallida: " . $e->getMessage();
     exit;
 }
@@ -19,21 +18,26 @@ $evento_id = $_POST['evento_id'];
 $comentarios = $_POST['comentarios'];
 $calificacion = $_POST['calificacion'];
 
-// Preparar la consulta SQL
-$sql = "INSERT INTO feedback (EventoID, Comentarios, Calificacion) VALUES (?, ?, ?)";
+try {
+    // Preparar la consulta SQL
+    $sql = "INSERT INTO feedback (EventoID, Comentarios, Calificacion) VALUES (:evento_id, :comentarios, :calificacion)";
+    $stmt = $conn->prepare($sql);
 
-// Preparar la declaración
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("isi", $evento_id, $comentarios, $calificacion);
+    // Asociar los parámetros
+    $stmt->bindParam(':evento_id', $evento_id, PDO::PARAM_INT);
+    $stmt->bindParam(':comentarios', $comentarios, PDO::PARAM_STR);
+    $stmt->bindParam(':calificacion', $calificacion, PDO::PARAM_INT);
 
-// Ejecutar la declaración
-if ($stmt->execute()) {
-    echo "Consulta ejecutada con éxito.";
-} else {
-    echo "Error: " . $stmt->error;
+    // Ejecutar la declaración
+    if ($stmt->execute()) {
+        echo "Consulta ejecutada con éxito.";
+    } else {
+        echo "Error al ejecutar la consulta.";
+    }
+} catch (PDOException $e) {
+    echo "Error en la consulta: " . $e->getMessage();
 }
 
 // Cerrar la conexión
-$stmt->close();
-$conn->close();
+$conn = null;
 ?>
