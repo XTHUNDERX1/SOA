@@ -14,7 +14,35 @@ try {
     echo "Conexión fallida: " . $e->getMessage();
     exit;
 }
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Panel de Control - Usuarios</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"> <!-- Enlace a Bootstrap -->
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Panel de Control de Usuarios</h2>
 
+        <!-- Botón para agregar un nuevo usuario -->
+        <div class="d-flex justify-content-end mb-3">
+            <a href="registro.html" class="btn btn-success">Agregar Nuevo Usuario</a>
+        </div>
+
+        <!-- Tabla de usuarios -->
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre de Usuario</th>
+                    <th>Email</th>
+                    <th>Rol</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
 // Consulta de usuarios
 $query = "SELECT UsuarioID, NombreUsuario, Email, NombreRol FROM Usuarios INNER JOIN roles ON Usuarios.RolID = roles.RolID";
 try {
@@ -61,3 +89,13 @@ try {
     echo "Error en la consulta: " . $e->getMessage();
 }
 ?>
+</tbody>
+        </table>
+    </div>
+
+    <!-- Bootstrap JS y dependencias -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
