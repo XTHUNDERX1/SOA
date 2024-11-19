@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = $_POST['password'];
 
     // Preparar la consulta para buscar al usuario en la base de datos
-    $query = "SELECT * FROM usuarios WHERE Email = ?";
+    $query = "SELECT * FROM Usuarios WHERE Email = ?";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("s", $email);
     $stmt->execute();
