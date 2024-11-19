@@ -9,40 +9,11 @@ try {
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     // Verificación de la conexión
-    echo "Conexión exitosa!<br>";
 } catch(PDOException $e) {
     echo "Conexión fallida: " . $e->getMessage();
     exit;
 }
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Panel de Control - Usuarios</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"> <!-- Enlace a Bootstrap -->
-</head>
-<body>
-    <div class="container mt-5">
-        <h2 class="text-center mb-4">Panel de Control de Usuarios</h2>
 
-        <!-- Botón para agregar un nuevo usuario -->
-        <div class="d-flex justify-content-end mb-3">
-            <a href="registro.html" class="btn btn-success">Agregar Nuevo Usuario</a>
-        </div>
-
-        <!-- Tabla de usuarios -->
-        <table class="table table-bordered table-striped">
-            <thead class="thead-dark">
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre de Usuario</th>
-                    <th>Email</th>
-                    <th>Rol</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
 // Consulta de usuarios
 $query = "SELECT UsuarioID, NombreUsuario, Email, NombreRol FROM Usuarios INNER JOIN roles ON Usuarios.RolID = roles.RolID";
 try {
@@ -55,20 +26,35 @@ try {
 
     // Comprobar si hay resultados
     if (empty($result)) {
-        echo "No se encontraron usuarios.<br>";
+        echo "<div class='alert alert-warning' role='alert'>No se encontraron usuarios.</div>";
     } else {
-        // Mostrar los resultados
-        echo "<table class='table table-bordered table-striped'>
-                <thead class='thead-dark'>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nombre de Usuario</th>
-                        <th>Email</th>
-                        <th>Rol</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>";
+        // Mostrar los resultados con un diseño de Bootstrap
+        echo "<!DOCTYPE html>
+<html lang='es'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>Panel de Usuarios</title>
+    <!-- Enlace a Bootstrap CSS -->
+    <link href='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body>
+    <div class='container mt-5'>
+        <h2 class='text-center mb-4'>Lista de Usuarios</h2>
+        <div class='d-flex justify-content-end mb-3'>
+            <a href='registro.html' class='btn btn-success'>Agregar Nuevo Usuario</a>
+        </div>
+        <table class='table table-bordered table-striped'>
+            <thead class='thead-dark'>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre de Usuario</th>
+                    <th>Email</th>
+                    <th>Rol</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>";
 
         foreach ($result as $row) {
             echo "<tr>";
@@ -83,19 +69,16 @@ try {
             echo "</tr>";
         }
 
-        echo "</tbody></table>";
+        echo "</tbody></table></div>";
+
+        // Scripts de Bootstrap JS y dependencias
+        echo "<script src='https://code.jquery.com/jquery-3.5.1.slim.min.js'></script>
+        <script src='https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js'></script>
+        <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js'></script>
+</body>
+</html>";
     }
 } catch(PDOException $e) {
-    echo "Error en la consulta: " . $e->getMessage();
+    echo "<div class='alert alert-danger' role='alert'>Error en la consulta: " . $e->getMessage() . "</div>";
 }
 ?>
-</tbody>
-        </table>
-    </div>
-
-    <!-- Bootstrap JS y dependencias -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html>
