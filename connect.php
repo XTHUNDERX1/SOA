@@ -1,7 +1,7 @@
 <?php
 $servername = "localhost";  // El servidor de la base de datos
-$username = "root";      // Tu usuario de base de datos
-$password = "";              // Tu contraseña de base de datos
+$username = "u855900840_william";      // Tu usuario de base de datos
+$password = "SOA@utp123";              // Tu contraseña de base de datos
 $dbname = "u855900840_eventos_peru";   // Nombre de la base de datos
 
 // Crear conexión
