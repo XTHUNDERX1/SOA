@@ -1,16 +1,17 @@
 <?php
-// Conectar a la base de datos
-$servername = "127.0.0.1";  // El servidor de la base de datos
-$username = "u855900840_william";      // Tu usuario de base de datos
-$password = "SOA@utp123";              // Tu contraseña de base de datos
-$dbname = "u855900840_eventos_peru"; 
+// Asegúrate de que la conexión es correcta con PDO
+$servername = "127.0.0.1";
+$username = "u855900840_william";
+$password = "SOA@utp123";
+$dbname = "u855900840_eventos_peru";
 
-// Crear la conexión
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Verificar la conexión
-if ($conn->connect_error) {
-    die("Conexión fallida: " . $conn->connect_error);
+try {
+    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // Verificación de la conexión
+} catch(PDOException $e) {
+    echo "Conexión fallida: " . $e->getMessage();
+    exit;
 }
 
 // Obtener los datos del formulario
