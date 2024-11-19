@@ -9,6 +9,7 @@ if (!isset($_SESSION['UsuarioID']) || $_SESSION['RolID'] != 1) {
 }
 ?>
 
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -41,33 +42,11 @@ if (!isset($_SESSION['UsuarioID']) || $_SESSION['RolID'] != 1) {
                 <!-- Aquí se cargarán los usuarios desde la base de datos -->
                 <?php
                 include 'connect.php';
-
-                // Depuración: Verificar conexión
-                if (!$conn) {
-                    die("<tr><td colspan='5' class='text-center'>Error de conexión: " . mysqli_connect_error() . "</td></tr>");
-                } else {
-                    echo "<tr><td colspan='5' class='text-center text-success'>Conexión exitosa</td></tr>";
-                }
-
-                // Consulta SQL
                 $query = "SELECT Usuarios.UsuarioID, Usuarios.NombreUsuario, Usuarios.Email, Roles.NombreRol 
                           FROM Usuarios 
                           INNER JOIN Roles ON Usuarios.RolID = Roles.RolID";
-
-                // Ejecutar la consulta y manejar errores
                 $result = $conn->query($query);
-                if ($result === false) {
-                    die("<tr><td colspan='5' class='text-center'>Error en la consulta SQL: " . $conn->error . "</td></tr>");
-                }
 
-                // Depuración: Verificar si hay resultados
-                if ($result->num_rows == 0) {
-                    echo "<tr><td colspan='5' class='text-center'>No hay usuarios registrados.</td></tr>";
-                } else {
-                    echo "<tr><td colspan='5' class='text-center text-success'>Número de usuarios encontrados: " . $result->num_rows . "</td></tr>";
-                }
-
-                // Mostrar resultados
                 while ($row = $result->fetch_assoc()) {
                     echo "<tr>";
                     echo "<td>" . $row['UsuarioID'] . "</td>";
