@@ -1,16 +1,16 @@
 <?php
-// Asegúrate de que la conexión es correcta con PDO
+// Asegúrate de que la conexión es correcta con mysqli
 $servername = "127.0.0.1";
 $username = "u855900840_william";
 $password = "SOA@utp123";
 $dbname = "u855900840_eventos_peru";
 
-try {
-    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    echo "Conexión fallida: " . $e->getMessage();
-    exit;
+// Crear la conexión
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Verificar la conexión
+if ($conn->connect_error) {
+    die("Conexión fallida: " . $conn->connect_error);
 }
 
 // Obtener los datos del formulario
@@ -24,16 +24,14 @@ if ($calificacion < 1 || $calificacion > 5) {
     exit;
 }
 
-try {
-    // Preparar la consulta SQL
-    $sql = "INSERT INTO feedback (EventoID, Comentarios, Calificacion) VALUES (:evento_id, :comentarios, :calificacion)";
-    $stmt = $conn->prepare($sql);
+// Preparar la consulta SQL
+$sql = "INSERT INTO feedback (EventoID, Comentarios, Calificacion) VALUES (?, ?, ?)";
 
-    // Asociar los parámetros
-    $stmt->bindParam(':evento_id', $evento_id, PDO::PARAM_INT);
-    $stmt->bindParam(':comentarios', $comentarios, PDO::PARAM_STR);
-    $stmt->bindParam(':calificacion', $calificacion, PDO::PARAM_INT);
-
+// Preparar la sentencia
+if ($stmt = $conn->prepare($sql)) {
+    // Vincular los parámetros
+    $stmt->bind_param("isi", $evento_id, $comentarios, $calificacion); // "i" para entero, "s" para string
+    
     // Ejecutar la declaración
     if ($stmt->execute()) {
         // Preparar el mensaje del correo
@@ -57,14 +55,16 @@ try {
         // Redirigir al usuario después de un envío exitoso
         header("Location: user_home.html");
         exit; // Importante para detener la ejecución del script después de la redirección
-
     } else {
-        echo "Error al ejecutar la consulta.";
+        echo "Error al ejecutar la consulta: " . $stmt->error;
     }
-} catch (PDOException $e) {
-    echo "Error en la consulta: " . $e->getMessage();
+
+    // Cerrar la sentencia
+    $stmt->close();
+} else {
+    echo "Error al preparar la consulta: " . $conn->error;
 }
 
 // Cerrar la conexión
-$conn = null;
+$conn->close();
 ?>

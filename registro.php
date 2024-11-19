@@ -38,7 +38,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Ejecutar la consulta
     if ($stmt->execute()) {
-        echo "Usuario registrado exitosamente.";
+        // Redirigir al login.html si el usuario fue registrado correctamente
+        header("Location: login.html");
+        exit; // Asegura que no se ejecute más código después de la redirección
     } else {
         echo "Error: " . $stmt->error; // Muestra el error en caso de que falle
     }

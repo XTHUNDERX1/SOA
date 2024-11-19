@@ -4,15 +4,12 @@ $username = "u855900840_william";      // Tu usuario de base de datos
 $password = "SOA@utp123";              // Tu contraseña de base de datos
 $dbname = "u855900840_eventos_peru";   // Nombre de la base de datos
 
-try {
-    // Crear conexión con PDO
-    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-    // Establecer el modo de error a excepciones
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    echo "Conexión exitosa!";
+// Crear conexión
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Verificar la conexión
+if ($conn->connect_error) {
+    die("Conexión fallida: " . $conn->connect_error);
 }
-catch(PDOException $e) {
-    // Capturar errores en la conexión
-    echo "Conexión fallida: " . $e->getMessage();
-}
+echo "Conexión exitosa!";
 ?>
