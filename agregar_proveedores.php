@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $sql = "INSERT INTO proveedores (NombreProveedor, Telefono, Email, Direccion, Reputacion) 
             VALUES ('$nombre', '$telefono', '$email', '$direccion', $reputacion)";
     if ($conn->query($sql)) {
-        header('Location:login.html ');
+        header('Location:dashboard_proveedores.php ');
     } else {
         echo 'Error: ' . $conn->error;
     }
