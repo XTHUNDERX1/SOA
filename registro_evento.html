@@ -30,28 +30,28 @@
             </div>
 
            <!-- Cliente -->
-<div class="form-group">
-    <label for="clienteID">Cliente</label>
-    <select class="form-control" id="clienteID" name="clienteID" required>
-        <option value="">Seleccionar Cliente</option>
-        <?php
-        // Incluir conexión a la base de datos
-        include 'connect.php';
-
-        // Obtener los clientes desde la base de datos
-        $query = "SELECT ClienteID, NombreCliente FROM clientes";
-        $result = $conn->query($query);
-
-        if ($result && $result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                echo "<option value='" . $row['ClienteID'] . "'>" . htmlspecialchars($row['NombreCliente']) . "</option>";
-            }
-        } else {
-            echo "<option value=''>No hay clientes disponibles</option>";
-        }
-        ?>
-    </select>
-</div>
+           <div class="form-group">
+            <label for="clienteID">Cliente</label>
+            <select class="form-control" id="clienteID" name="clienteID" required>
+                <option value="">Seleccionar Cliente</option>
+                <?php
+                include 'connect.php'; // Verifica que este archivo contiene la conexión correcta
+        
+                // Consulta para obtener los clientes
+                $query = "SELECT ClienteID, NombreCliente FROM clientes";
+                $result = $conn->query($query);
+        
+                if ($result && $result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<option value='" . $row['ClienteID'] . "'>" . $row['NombreCliente'] . "</option>";
+                    }
+                } else {
+                    echo "<option value=''>No hay clientes disponibles</option>";
+                }
+                ?>
+            </select>
+        </div>
+        
 
 <!-- Proveedor -->
 <div class="form-group">
@@ -59,21 +59,24 @@
     <select class="form-control" id="proveedorID" name="proveedorID" required>
         <option value="">Seleccionar Proveedor</option>
         <?php
-        // Obtener los proveedores desde la base de datos
+        // Consulta para obtener los proveedores
         $query = "SELECT ProveedorID, NombreProveedor FROM proveedores";
         $result = $conn->query($query);
 
         if ($result && $result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
-                echo "<option value='" . $row['ProveedorID'] . "'>" . htmlspecialchars($row['NombreProveedor']) . "</option>";
+                echo "<option value='" . $row['ProveedorID'] . "'>" . $row['NombreProveedor'] . "</option>";
             }
         } else {
             echo "<option value=''>No hay proveedores disponibles</option>";
         }
+
+        // Cerrar conexión después de la consulta
         $conn->close();
         ?>
     </select>
 </div>
+
 
 
             <!-- Botón de Enviar -->
