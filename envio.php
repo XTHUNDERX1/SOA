@@ -18,6 +18,12 @@ $evento_id = $_POST['evento_id'];
 $comentarios = $_POST['comentarios'];
 $calificacion = $_POST['calificacion'];
 
+// Validar que la calificación esté en el rango de 1 a 5
+if ($calificacion < 1 || $calificacion > 5) {
+    echo "La calificación debe estar entre 1 y 5.";
+    exit;
+}
+
 try {
     // Preparar la consulta SQL
     $sql = "INSERT INTO feedback (EventoID, Comentarios, Calificacion) VALUES (:evento_id, :comentarios, :calificacion)";
