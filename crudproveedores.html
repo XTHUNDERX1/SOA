@@ -1,0 +1,138 @@
+<?php
+include 'connect.php';
+
+// Crear o actualizar proveedor
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $id = $_POST['id'] ?? null;
+    $nombre = $_POST['nombre'];
+    $telefono = $_POST['telefono'];
+    $email = $_POST['email'];
+    $direccion = $_POST['direccion'];
+    $reputacion = $_POST['reputacion'];
+
+    if ($id) {
+        // Actualizar proveedor
+        $sql = "UPDATE proveedores SET 
+                NombreProveedor = ?, 
+                Telefono = ?, 
+                Email = ?, 
+                Direccion = ?, 
+                Reputacion = ? 
+                WHERE ProveedorID = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('ssssii', $nombre, $telefono, $email, $direccion, $reputacion, $id);
+    } else {
+        // Crear proveedor
+        $sql = "INSERT INTO proveedores (NombreProveedor, Telefono, Email, Direccion, Reputacion) 
+                VALUES (?, ?, ?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('ssssi', $nombre, $telefono, $email, $direccion, $reputacion);
+    }
+
+    if ($stmt->execute()) {
+        header('Location: crud_proveedores.php');
+        exit();
+    } else {
+        echo 'Error: ' . $stmt->error;
+    }
+}
+
+// Eliminar proveedor
+if (isset($_GET['delete'])) {
+    $id = $_GET['delete'];
+    $sql = "DELETE FROM proveedores WHERE ProveedorID = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('i', $id);
+    $stmt->execute();
+    header('Location: crud_proveedores.php');
+    exit();
+}
+
+// Obtener la lista de proveedores
+$result = $conn->query("SELECT * FROM proveedores");
+?>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Proveedores</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2 class="text-center">Gestión de Proveedores</h2>
+
+    <!-- Formulario para agregar/actualizar proveedor -->
+    <div class="card my-4">
+        <div class="card-header">Agregar/Actualizar Proveedor</div>
+        <div class="card-body">
+            <form method="POST" action="">
+                <input type="hidden" name="id" value="<?= $_GET['edit'] ?? '' ?>">
+                <div class="form-group">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" class="form-control" id="nombre" name="nombre" 
+                           value="<?= $_GET['edit'] ? $proveedor['NombreProveedor'] : '' ?>" required>
+                </div>
+                <div class="form-group">
+                    <label for="telefono">Teléfono</label>
+                    <input type="text" class="form-control" id="telefono" name="telefono" 
+                           value="<?= $_GET['edit'] ? $proveedor['Telefono'] : '' ?>" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" 
+                           value="<?= $_GET['edit'] ? $proveedor['Email'] : '' ?>" required>
+                </div>
+                <div class="form-group">
+                    <label for="direccion">Dirección</label>
+                    <input type="text" class="form-control" id="direccion" name="direccion" 
+                           value="<?= $_GET['edit'] ? $proveedor['Direccion'] : '' ?>" required>
+                </div>
+                <div class="form-group">
+                    <label for="reputacion">Reputación</label>
+                    <input type="number" class="form-control" id="reputacion" name="reputacion" 
+                           value="<?= $_GET['edit'] ? $proveedor['Reputacion'] : '' ?>" required>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <?= $_GET['edit'] ? 'Actualizar' : 'Agregar' ?>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Tabla de proveedores -->
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Teléfono</th>
+            <th>Email</th>
+            <th>Dirección</th>
+            <th>Reputación</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php while ($row = $result->fetch_assoc()): ?>
+            <tr>
+                <td><?= $row['ProveedorID'] ?></td>
+                <td><?= $row['NombreProveedor'] ?></td>
+                <td><?= $row['Telefono'] ?></td>
+                <td><?= $row['Email'] ?></td>
+                <td><?= $row['Direccion'] ?></td>
+                <td><?= $row['Reputacion'] ?></td>
+                <td>
+                    <a href="crud_proveedores.php?edit=<?= $row['ProveedorID'] ?>" class="btn btn-warning btn-sm">Editar</a>
+                    <a href="crud_proveedores.php?delete=<?= $row['ProveedorID'] ?>" class="btn btn-danger btn-sm"
+                       onclick="return confirm('¿Estás seguro de eliminar este proveedor?')">Eliminar</a>
+                </td>
+            </tr>
+        <?php endwhile; ?>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
