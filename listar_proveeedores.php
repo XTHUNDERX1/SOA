@@ -1,5 +1,5 @@
 <?php
-include 'db.php';
+include 'connect.php';
 $result = $conn->query("SELECT * FROM proveedores");
 ?>
 <!DOCTYPE html>
