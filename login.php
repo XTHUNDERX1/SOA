@@ -14,13 +14,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $result = $stmt->get_result();
     $user = $result->fetch_assoc();
 
-    // Verificación de depuración para ver si el usuario se está obteniendo
-    if ($user) {
-        echo "Usuario encontrado: " . print_r($user, true); // Esta línea es solo para depuración
-    } else {
-        echo "No se encontró ningún usuario con ese email.";
-    }
-
     // Verificar si se encontró al usuario y si la contraseña coincide
     if ($user && password_verify($password, $user['Contraseña'])) {
         $_SESSION['UsuarioID'] = $user['UsuarioID'];
@@ -28,10 +21,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['RolID'] = $user['RolID'];
 
         // Redirigir según el rol del usuario
-        if ($user['RolID'] == 1) { // Asumiendo que el rol de Administrador tiene el ID 1
-            header('Location: dashboard.php'); // Redirigir al panel de control si es administrador
-        } else {
-            header('Location: user_home.html'); // Página de inicio para usuarios no administradores
+        switch ($user['RolID']) {
+            case 1: // Administrador
+                header('Location: dashboard.php');
+                break;
+            case 2: // Usuario regular
+                header('Location: user_home.html');
+                break;
+            case 3: // Proveedor
+                header('Location: registro_proveedor.html');
+                break;
+            default: // Rol desconocido
+                echo "<script>alert('Rol desconocido, contacte al administrador.');window.location='login.html';</script>";
+                break;
         }
         exit();
     } else {
