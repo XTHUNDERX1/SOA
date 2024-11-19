@@ -32,9 +32,14 @@
                 <?php
                 include 'connect.php';
                 $query = "SELECT Usuarios.UsuarioID, Usuarios.NombreUsuario, Usuarios.Email, Roles.NombreRol 
-                          FROM Usuarios 
-                          INNER JOIN Roles ON Usuarios.RolID = Roles.RolID";
-                $result = $conn->query($query);
+                    FROM Usuarios 
+                        INNER JOIN Roles ON Usuarios.RolID = Roles.RolID";
+                 $result = $conn->query($query);
+
+                        // Verificar si hubo un error en la consulta
+                 if (!$result) {
+                  die("Error en la consulta: " . $conn->error);
+}
 
                 while ($row = $result->fetch_assoc()) {
                     echo "<tr>";
@@ -59,3 +64,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
+<?php
+// Verificar la consulta SQL y sus resultados
+var_dump($result->fetch_assoc());
+?>
