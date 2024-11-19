@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $contraseñaEncriptada = password_hash($contraseña, PASSWORD_DEFAULT);
 
     // Insertar usuario en la base de datos
-    $sql = "INSERT INTO Usuarios (NombreUsuario, Email, Contraseña, RolID) VALUES (?, ?, ?, ?)";
+    $sql = "INSERT INTO usuarios (NombreUsuario, Email, Contraseña, RolID) VALUES (?, ?, ?, ?)";
     
     // Preparar la consulta
     $stmt = $conn->prepare($sql);
