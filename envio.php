@@ -30,7 +30,9 @@ try {
 
     // Ejecutar la declaración
     if ($stmt->execute()) {
-        echo "Consulta ejecutada con éxito.";
+        // Redirigir al usuario después de un envío exitoso
+        header("Location: user_home.html");
+        exit; // Importante para detener la ejecución del script después de la redirección
     } else {
         echo "Error al ejecutar la consulta.";
     }
