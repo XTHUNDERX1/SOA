@@ -36,9 +36,28 @@ try {
 
     // Ejecutar la declaración
     if ($stmt->execute()) {
+        // Preparar el mensaje del correo
+        $subject = "Nuevo Feedback para Evento ID: $evento_id";
+        $message = "Se ha recibido un nuevo feedback para el evento con ID: $evento_id.\n\n";
+        $message .= "Comentarios: $comentarios\n";
+        $message .= "Calificación: $calificacion\n";
+
+        // Cabeceras del correo
+        $headers = "From: marengo_2013@hotmail.com\r\n"; // Cambia a tu dominio o correo desde el que se enviará
+        $headers .= "Reply-To: $comentarios\r\n";
+        $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
+
+        // Enviar el correo
+        if (mail("william220418@gmail.com", $subject, $message, $headers)) {
+            echo "El correo fue enviado correctamente.";
+        } else {
+            echo "Error al enviar el correo.";
+        }
+
         // Redirigir al usuario después de un envío exitoso
         header("Location: user_home.html");
         exit; // Importante para detener la ejecución del script después de la redirección
+
     } else {
         echo "Error al ejecutar la consulta.";
     }
