@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 header('Location: dashboard.php');
                 break;
             case 2: // Usuario regular
-                header('Location: user_home.html');
+                header('Location: home.php');
                 break;
             case 3: // Proveedor
                 header('Location: registro_proveedor.html');

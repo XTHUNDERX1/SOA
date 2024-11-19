@@ -2,7 +2,7 @@
 session_start();
 
 // Verificar si el usuario ha iniciado sesión y es un administrador
-if (!isset($_SESSION['UsuarioID']) || $_SESSION['RolID'] != 1) {
+if (!isset($_SESSION['UsuarioID']) || $_SESSION['RolID'] != 2) {
     // Si no es administrador, redirigirlo a la página de login o a otro lugar
     header('Location: user_home.html');
     exit();

@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             Reputacion = $reputacion 
             WHERE ProveedorID = $id";
     if ($conn->query($sql)) {
-        header('Location: index.php');
+        header('Location: dashboard_proveedores.php');
     } else {
         echo 'Error: ' . $conn->error;
     }

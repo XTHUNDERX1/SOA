@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $query = "UPDATE Usuarios SET NombreUsuario = '$nombreUsuario', Email = '$email', RolID = $rolID WHERE UsuarioID = $userId";
 
     if ($conn->query($query) === TRUE) {
-        echo "<script>alert('Usuario actualizado con éxito');window.location='dashboard.html';</script>";
+        echo "<script>alert('Usuario actualizado con éxito');window.location='dashboard_proveedores.php';</script>";
     } else {
         echo "Error al actualizar el usuario: " . $conn->error;
     }
