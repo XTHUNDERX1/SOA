@@ -24,30 +24,8 @@ if (!$result) {
     echo "<div class='alert alert-danger' role='alert'>Error en la consulta: " . $conn->error . "</div>";
     exit;
 }
-
-// Consulta para contar usuarios por rol
-$queryRoles = "SELECT r.NombreRol, COUNT(u.UsuarioID) as Cantidad 
-               FROM Usuarios u 
-               INNER JOIN roles r ON u.RolID = r.RolID 
-               GROUP BY r.NombreRol";
-
-$resultRoles = $conn->query($queryRoles);
-
-if (!$resultRoles) {
-    die("Error en la consulta de roles: " . $conn->error);
-}
-
-// Extraer datos para el gráfico
-$roles = [];
-$cantidades = [];
-
-while ($row = $resultRoles->fetch_assoc()) {
-    $roles[] = $row['NombreRol'];
-    $cantidades[] = $row['Cantidad'];
-}
-
-$resultRoles->free();
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -55,93 +33,48 @@ $resultRoles->free();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Usuarios</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <div class="container mt-5">
-        <h2 class="text-center mb-4">Lista de Usuarios</h2>
-        <div class="d-flex justify-content-between mb-3">
-            <a href="registro.html" class="btn btn-success">Agregar Nuevo Usuario</a>
-            <a href="logout.php" class="btn btn-danger">Cerrar Sesión</a>
-        </div>
-        <table class="table table-bordered table-striped">
-            <thead class="thead-dark">
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre de Usuario</th>
-                    <th>Email</th>
-                    <th>Rol</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php while ($row = $result->fetch_assoc()) { ?>
-                <tr>
-                    <td><?= $row['UsuarioID'] ?></td>
-                    <td><?= $row['NombreUsuario'] ?></td>
-                    <td><?= $row['Email'] ?></td>
-                    <td><?= $row['NombreRol'] ?></td>
-                    <td>
-                        <a href="edit_user.php?id=<?= $row['UsuarioID'] ?>" class="btn btn-primary btn-sm">Editar</a>
-                        <a href="delete_user.php?id=<?= $row['UsuarioID'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de eliminar este usuario?')">Eliminar</a>
-                    </td>
-                </tr>
-                <?php } ?>
-            </tbody>
-        </table>
-        <div class="mt-5">
-            <h3 class="text-center">Grafico de Usuarios por Roles</h3>
-            <canvas id="rolesChart" width="150" height="150"></canvas>
-        </div>
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Lista de Usuarios</h2>
+    <div class="d-flex justify-content-between mb-3">
+        <a href="registro.html" class="btn btn-success">Agregar Nuevo Usuario</a>
+        <a href="logout.php" class="btn btn-danger">Cerrar Sesión</a>
+        <a href="graficos.php" class="btn btn-info">Ver Gráficos</a>
     </div>
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <th>ID</th>
+            <th>Nombre de Usuario</th>
+            <th>Email</th>
+            <th>Rol</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php while ($row = $result->fetch_assoc()) { ?>
+            <tr>
+                <td><?= $row['UsuarioID'] ?></td>
+                <td><?= $row['NombreUsuario'] ?></td>
+                <td><?= $row['Email'] ?></td>
+                <td><?= $row['NombreRol'] ?></td>
+                <td>
+                    <a href="edit_user.php?id=<?= $row['UsuarioID'] ?>" class="btn btn-primary btn-sm">Editar</a>
+                    <a href="delete_user.php?id=<?= $row['UsuarioID'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de eliminar este usuario?')">Eliminar</a>
+                </td>
+            </tr>
+        <?php } ?>
+        </tbody>
+    </table>
+</div>
 
-    <script>
-        const roles = <?= json_encode($roles) ?>;
-        const cantidades = <?= json_encode($cantidades) ?>;
-
-        const ctx = document.getElementById('rolesChart').getContext('2d');
-        const rolesChart = new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: roles,
-                datasets: [{
-                    label: 'Cantidad de Usuarios por Rol',
-                    data: cantidades,
-                    backgroundColor: [
-                        'rgba(75, 192, 192, 0.6)',
-                        'rgba(153, 102, 255, 0.6)',
-                        'rgba(255, 159, 64, 0.6)',
-                        'rgba(255, 99, 132, 0.6)',
-                        'rgba(54, 162, 235, 0.6)'
-                    ],
-                    borderColor: [
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)',
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    },
-                    tooltip: {
-                        enabled: true
-                    }
-                }
-            }
-        });
-    </script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
+
 <?php
 $result->free();
 $conn->close();
