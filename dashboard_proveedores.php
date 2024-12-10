@@ -26,6 +26,9 @@ include 'connect.php'; // Incluir la conexión a la base de datos
         <!-- Botón para agregar un nuevo proveedor -->
         <div class="d-flex justify-content-end mb-3">
             <a href="registro_proveedor.html" class="btn btn-success">Agregar Nuevo Proveedor</a>
+
+            <a href="grafico_proveedores.php" class="btn btn-info">Ver Gráficos</a>
+
             <a href="logout.php" class="btn btn-danger">Cerrar Sesión</a>
         </div>
 

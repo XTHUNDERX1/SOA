@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 header('Location: home.php');
                 break;
             case 3: // Proveedor
-                header('Location: registro_proveedor.html');
+                header('Location: dashboard_proveedores.php');
                 break;
             default: // Rol desconocido
                 echo "<script>alert('Rol desconocido, contacte al administrador.');window.location='login.html';</script>";
