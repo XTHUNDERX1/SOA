@@ -61,6 +61,11 @@ $conn->close();
             <canvas id="rolesBarChart"></canvas>
         </div>
     </div>
+
+    <!-- Botón para volver al dashboard -->
+    <div class="mt-4 text-center">
+        <a href="dashboard.php" class="btn btn-primary">Volver al Listado</a>
+    </div>
 </div>
 
 <script>
