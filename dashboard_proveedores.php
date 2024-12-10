@@ -57,8 +57,8 @@ include 'connect.php'; // Incluir la conexión a la base de datos
                     echo "<td>" . $row['Direccion'] . "</td>";
                     echo "<td>" . $row['Reputacion'] . "</td>";
                     echo "<td>
-                            <a href='edit_proveedor.php?id=" . $row['ProveedorID'] . "' class='btn btn-primary btn-sm'>Editar</a>
-                            <a href='delete_proveedor.php?id=" . $row['ProveedorID'] . "' class='btn btn-danger btn-sm' onclick='return confirm(\"¿Estás seguro de eliminar este proveedor?\")'>Eliminar</a>
+                            <a href='update_proveedor.php?id=" . $row['ProveedorID'] . "' class='btn btn-primary btn-sm'>Editar</a>
+                            <a href='eliminar_proveedores.php?id=" . $row['ProveedorID'] . "' class='btn btn-danger btn-sm' onclick='return confirm(\"¿Estás seguro de eliminar este proveedor?\")'>Eliminar</a>
                           </td>";
                     echo "</tr>";
                 }

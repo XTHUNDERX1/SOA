@@ -6,7 +6,7 @@ $result = $conn->query("SELECT * FROM proveedores WHERE ProveedorID = $id");
 $proveedor = $result->fetch_assoc();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nombre = $_POST['nombre'];
+    $nombre = $_POST['nombreProveedor'];
     $telefono = $_POST['telefono'];
     $email = $_POST['email'];
     $direccion = $_POST['direccion'];
