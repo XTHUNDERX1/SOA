@@ -49,17 +49,28 @@ $conn->close();
 </head>
 <body>
 <div class="container mt-5">
-    <h3 class="text-center">Gráfico de Usuarios por Roles</h3>
-    <canvas id="rolesChart" width="150" height="150"></canvas>
+    <h3 class="text-center">Gráficos de Usuarios por Roles</h3>
+    <div class="row">
+        <!-- Gráfico de Pastel -->
+        <div class="col-md-6">
+            <canvas id="rolesPieChart"></canvas>
+        </div>
+
+        <!-- Gráfico de Barras -->
+        <div class="col-md-6">
+            <canvas id="rolesBarChart"></canvas>
+        </div>
+    </div>
 </div>
 
 <script>
     const roles = <?= json_encode($roles) ?>;
     const cantidades = <?= json_encode($cantidades) ?>;
 
-    const ctx = document.getElementById('rolesChart').getContext('2d');
-    const rolesChart = new Chart(ctx, {
-        type: 'pie',
+    // Gráfico de Pastel
+    const pieCtx = document.getElementById('rolesPieChart').getContext('2d');
+    const rolesPieChart = new Chart(pieCtx, {
+        type: 'pie',  // Tipo de gráfico de pastel
         data: {
             labels: roles,
             datasets: [{
@@ -90,6 +101,38 @@ $conn->close();
                 },
                 tooltip: {
                     enabled: true
+                }
+            }
+        }
+    });
+
+    // Gráfico de Barras
+    const barCtx = document.getElementById('rolesBarChart').getContext('2d');
+    const rolesBarChart = new Chart(barCtx, {
+        type: 'bar',  // Tipo de gráfico de barras
+        data: {
+            labels: roles,
+            datasets: [{
+                label: 'Cantidad de Usuarios por Rol',
+                data: cantidades,
+                backgroundColor: 'rgba(75, 192, 192, 0.6)',  // Color de las barras
+                borderColor: 'rgba(75, 192, 192, 1)',  // Color del borde de las barras
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                tooltip: {
+                    enabled: true
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true  // Asegura que las barras comiencen desde cero en el eje Y
                 }
             }
         }
