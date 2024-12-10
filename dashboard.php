@@ -95,7 +95,7 @@ $resultRoles->free();
         <!-- Gráfico circular -->
         <div class="mt-5">
             <h3 class="text-center">Distribución de Usuarios por Rol</h3>
-            <canvas id="rolesChart" width="400" height="400"></canvas>
+            <canvas id="rolesChart" width="150" height="150"></canvas>
         </div>
     </div>
 
