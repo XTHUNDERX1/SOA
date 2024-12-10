@@ -53,7 +53,7 @@ if ($stmt = $conn->prepare($sql)) {
         }
 
         // Redirigir al usuario después de un envío exitoso
-        header("Location: user_home.html");
+        header("Location: home.php");
         exit; // Importante para detener la ejecución del script después de la redirección
     } else {
         echo "Error al ejecutar la consulta: " . $stmt->error;
