@@ -6,47 +6,56 @@ include 'connect.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['procesar_evento'])) {
         // Procesar evento: registrar en la base de datos
-        $tipoEvento = $_POST['tipo_evento'];
-        $fecha = $_POST['fecha'];
-        $lugar = $_POST['lugar'];
-        $clienteID = $_POST['cliente_id'];
-        $proveedorID = $_POST['proveedor_id'];
+        $tipoEvento = mysqli_real_escape_string($conn, $_POST['tipoEvento']);
+        $fecha = mysqli_real_escape_string($conn, $_POST['fecha']);
+        $lugar = mysqli_real_escape_string($conn, $_POST['lugar']);
+        $clienteID = (int) $_POST['clienteID'];
+        $proveedorID = (int) $_POST['proveedorID'];
 
-        $query = "INSERT INTO eventos (TipoEvento, Fecha, Lugar, ClienteID, ProveedorID) 
-                  VALUES ('$tipoEvento', '$fecha', '$lugar', $clienteID, $proveedorID)";
-        if (mysqli_query($conn, $query)) {
+        // Sentencia preparada para insertar el evento
+        $query = $conn->prepare("INSERT INTO eventos (TipoEvento, Fecha, Lugar, ClienteID, ProveedorID) 
+                                 VALUES (?, ?, ?, ?, ?)");
+        $query->bind_param("sssii", $tipoEvento, $fecha, $lugar, $clienteID, $proveedorID);
+
+        if ($query->execute()) {
             echo "<p>El evento se ha procesado correctamente.</p>";
-            $eventoID = mysqli_insert_id($conn); // Obtener el ID del evento registrado
+            $eventoID = $conn->insert_id; // Obtener el ID del evento registrado
         } else {
-            echo "<p>Error al procesar el evento: " . mysqli_error($conn) . "</p>";
+            echo "<p>Error al procesar el evento: " . $conn->error . "</p>";
         }
     }
 
     if (isset($_POST['finalizar_evento'])) {
         // Finalizar evento
-        $eventoID = $_POST['evento_id'];
+        $eventoID = (int) $_POST['eventoID'];
 
-        $query = "UPDATE eventos SET Fecha = Fecha WHERE EventoID = $eventoID"; // Simulación de finalización
-        if (mysqli_query($conn, $query)) {
+        // Actualizar el evento para marcarlo como finalizado
+        $query = $conn->prepare("UPDATE eventos SET Estado = 'Finalizado' WHERE EventoID = ?");
+        $query->bind_param("i", $eventoID);
+
+        if ($query->execute()) {
             echo "<p>El evento ha sido finalizado.</p>";
             $mostrarFeedbackForm = true;
         } else {
-            echo "<p>Error al finalizar el evento: " . mysqli_error($conn) . "</p>";
+            echo "<p>Error al finalizar el evento: " . $conn->error . "</p>";
         }
     }
 
     if (isset($_POST['guardar_feedback'])) {
         // Guardar feedback
-        $eventoID = $_POST['evento_id'];
-        $comentarios = $_POST['comentarios'];
-        $calificacion = $_POST['calificacion'];
+        $eventoID = (int) $_POST['eventoID'];
+        $comentarios = mysqli_real_escape_string($conn, $_POST['comentarios']);
+        $calificacion = (int) $_POST['calificacion'];
 
-        $query = "INSERT INTO feedback (EventoID, Comentarios, Calificacion) 
-                  VALUES ($eventoID, '$comentarios', $calificacion)";
-        if (mysqli_query($conn, $query)) {
+        // Sentencia preparada para insertar el feedback
+        $query = $conn->prepare("INSERT INTO feedback (EventoID, Comentarios, Calificacion) 
+                                 VALUES (?, ?, ?)");
+        $query->bind_param("isi", $eventoID, $comentarios, $calificacion);
+
+        if ($query->execute()) {
             echo "<p>Gracias por tu feedback. El proceso ha finalizado.</p>";
         } else {
-            echo "<p>Error al guardar el feedback: " . mysqli_error($conn) . "</p>";
+            echo "<p>Error al guardar el feedback: " . $conn->error . "</p>";
         }
     }
 
