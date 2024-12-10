@@ -2,7 +2,7 @@
 include 'connect.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nombre = $_POST['nombre'];
+    $nombre = $_POST['nombreProveedor'];
     $telefono = $_POST['telefono'];
     $email = $_POST['email'];
     $direccion = $_POST['direccion'];
