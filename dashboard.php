@@ -47,7 +47,6 @@ while ($row = $resultRoles->fetch_assoc()) {
 }
 
 $resultRoles->free();
-
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -55,16 +54,15 @@ $resultRoles->free();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Usuarios</title>
-    <!-- Enlace a Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Enlace a Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="container mt-5">
         <h2 class="text-center mb-4">Lista de Usuarios</h2>
-        <div class="d-flex justify-content-end mb-3">
+        <div class="d-flex justify-content-between mb-3">
             <a href="registro.html" class="btn btn-success">Agregar Nuevo Usuario</a>
+            <a href="logout.php" class="btn btn-danger">Cerrar Sesión</a>
         </div>
         <table class="table table-bordered table-striped">
             <thead class="thead-dark">
@@ -91,21 +89,16 @@ $resultRoles->free();
                 <?php } ?>
             </tbody>
         </table>
-
-        <!-- Gráfico circular -->
         <div class="mt-5">
-            <h3 class="text-center">Gráfico de Usuarios por Roles</h3>
-            <canvas id="rolesChart" width="100" height="100"></canvas>
+            <h3 class="text-center">Grafico de Usuarios por Roles</h3>
+            <canvas id="rolesChart" width="150" height="150"></canvas>
         </div>
     </div>
 
-    <!-- Scripts -->
     <script>
-        // Datos para el gráfico
         const roles = <?= json_encode($roles) ?>;
         const cantidades = <?= json_encode($cantidades) ?>;
 
-        // Crear gráfico circular con Chart.js
         const ctx = document.getElementById('rolesChart').getContext('2d');
         const rolesChart = new Chart(ctx, {
             type: 'pie',
@@ -133,7 +126,6 @@ $resultRoles->free();
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: false,
                 plugins: {
                     legend: {
                         position: 'top',
@@ -151,7 +143,6 @@ $resultRoles->free();
 </body>
 </html>
 <?php
-// Liberar resultados y cerrar conexión
 $result->free();
 $conn->close();
 ?>
