@@ -26,6 +26,7 @@ include 'connect.php'; // Incluir la conexión a la base de datos
         <!-- Botón para agregar un nuevo evento -->
         <div class="d-flex justify-content-end mb-3">
             <a href="registro_evento.html" class="btn btn-success">Agregar Nuevo Evento</a>
+            <a href="logout.php" class="btn btn-danger">Cerrar Sesión</a>
         </div>
 
         <!-- Tabla de eventos -->

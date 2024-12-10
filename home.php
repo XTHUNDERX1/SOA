@@ -14,6 +14,7 @@
         <div class="text-center mt-4">
             <!-- Botón para registrar un evento -->
             <a href="registro_evento.html" class="btn btn-primary btn-lg mr-2">Registrar un Evento</a>
+            <a href="logout.php" class="btn btn-danger">Cerrar Sesión</a>
             <!-- Botón para dejar una opinión -->
             <a href="Formulario.html" class="btn btn-secondary btn-lg ml-2">Deja tu Opinión</a>
             <a href="dashboard_eventos.php" class="btn btn-secondary btn-lg ml-2">Listado de Eventos</a>
