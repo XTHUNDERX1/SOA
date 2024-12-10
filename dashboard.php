@@ -94,8 +94,8 @@ $resultRoles->free();
 
         <!-- Gráfico circular -->
         <div class="mt-5">
-            <h3 class="text-center">Grafico de Usuarios por Roles</h3>
-            <canvas id="rolesChart" width="150" height="150"></canvas>
+            <h3 class="text-center">Gráfico de Usuarios por Roles</h3>
+            <canvas id="rolesChart" width="100" height="100"></canvas>
         </div>
     </div>
 
@@ -133,6 +133,7 @@ $resultRoles->free();
             },
             options: {
                 responsive: true,
+                maintainAspectRatio: false,
                 plugins: {
                     legend: {
                         position: 'top',
