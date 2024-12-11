@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->bind_param('sssiii', $tipoEvento, $fecha, $lugar, $clienteID, $proveedorID, $eventoID);
     
     if ($stmt->execute()) {
-        header('Location: eventos_list.php'); // Redirigir a la lista de eventos
+        header('Location: dashboard_eventos.php'); // Redirigir a la lista de eventos
         exit();
     } else {
         echo "Error al actualizar el evento.";
